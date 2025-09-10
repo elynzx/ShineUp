@@ -1,4 +1,4 @@
-const mensajes = [
+const messages = [
     "Tu pensamiento crítico transforma ideas en soluciones reales",
     "Tienes la capacidad de crear oportunidades donde otros ven problemas",
     "Tu creatividad es tu superpoder",
@@ -10,30 +10,36 @@ const mensajes = [
     "Cada módulo que completas es una victoria silenciosa.",
 ];
 
-let indice = 0;
+const headingText = "Recuerda que...";
+let index = 0;
 
-const mensajeEl = document.getElementById("message");
+// DOM elements
+const message = document.getElementById("message");
+const heading = document.getElementById("heading");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const okayBtn = document.getElementById("okay");
 const closeBtn = document.getElementById("closeButton");
 
-function actualizarMensaje() {
-    mensajeEl.textContent = mensajes[indice];
+heading.textContent = headingText
+
+// update the message text based on current index
+function updateMessage() {
+    message.textContent = messages[index];
 }
 
-//FUncion con efecto particulas
-function lanzarEstrellas(origenX, origenY, cantidad = 15) {
-    for (let i = 0; i < cantidad; i++) {
+//star particles - shoot effect function
+function launchStars(origenX, origenY, amount = 15) {
+    for (let i = 0; i < amount; i++) {
         const star = document.createElement("img");
         star.src = "assets/star.png";
         star.classList.add("star-particle");
 
-        // posición inicial
+        // initial position
         star.style.left = `${origenX}px`;
         star.style.top = `${origenY}px`;
 
-        // dirección aleatoria
+        // random direction
         const angle = Math.random() * 2 * Math.PI;
         const distance = 80 + Math.random() * 50;
         const dx = Math.cos(angle) * distance;
@@ -44,30 +50,30 @@ function lanzarEstrellas(origenX, origenY, cantidad = 15) {
 
         document.body.appendChild(star);
 
-        // Elimina al finalizar
+        // remove effect after animation ends
         star.addEventListener("animationend", () => star.remove());
     }
 }
 
 nextBtn.addEventListener("click", () => {
-    indice = (indice + 1) % mensajes.length;
-    actualizarMensaje();
+    index = (index + 1) % messages.length;
+    updateMessage();
 });
 
 prevBtn.addEventListener("click", () => {
-    indice = (indice - 1 + mensajes.length) % mensajes.length;
-    actualizarMensaje();
+    index = (index - 1 + messages.length) % messages.length;
+    updateMessage();
 });
 
 okayBtn.addEventListener("click", () => {
     const rect = okayBtn.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
-    lanzarEstrellas(x, y, 15);
+    launchStars(x, y, 15);
 });
 
 closeBtn.addEventListener("click", () => {
     window.close();
 });
 
-actualizarMensaje();
+updateMessage();
